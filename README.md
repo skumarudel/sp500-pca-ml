@@ -1,61 +1,26 @@
-# sp500-pca-ml
+## sp500-pca-ml
 
-<a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
-    <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
-</a>
+**Interactive PCA analysis of S&P 500 stocks using Streamlit.**
 
-Analyzing Stocks from S and P index and filter few stocks from the index and apply ML to predict future stock price
+This app:
+- Loads S&P 500 constituents and sector weights.
+- Uses historical daily prices for index members and the S&P 500 itself.
+- Lets you explore:
+  - Sector weights and top stocks by index weight.
+  - Sector-wise cumulative returns and correlation.
+  - Principal Component Analysis (PCA) of stock returns, including variance explained, loadings, and a PCA scatter plot.
 
-## Project Organization
+### How to run the app locally
 
-```
-├── LICENSE            <- Open-source license if one is chosen
-├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
-├── README.md          <- The top-level README for developers using this project.
-├── data
-│   ├── external       <- Data from third party sources.
-│   ├── interim        <- Intermediate data that has been transformed.
-│   ├── processed      <- The final, canonical data sets for modeling.
-│   └── raw            <- The original, immutable data dump.
-│
-├── docs               <- A default mkdocs project; see www.mkdocs.org for details
-│
-├── models             <- Trained and serialized models, model predictions, or model summaries
-│
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
-│
-├── pyproject.toml     <- Project configuration file with package metadata for 
-│                         sp500_pca_ml and configuration for tools like black
-│
-├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-│
-├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.cfg          <- Configuration file for flake8
-│
-└── sp500_pca_ml   <- Source code for use in this project.
-    │
-    ├── __init__.py             <- Makes sp500_pca_ml a Python module
-    │
-    ├── config.py               <- Store useful variables and configuration
-    │
-    ├── dataset.py              <- Scripts to download or generate data
-    │
-    ├── features.py             <- Code to create features for modeling
-    │
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
-    │   └── train.py            <- Code to train models
-    │
-    └── plots.py                <- Code to create visualizations
+- **Install dependencies** (using your preferred tool, e.g. `uv` or `pip`):
+  - `streamlit`, `pandas`, `numpy`, `plotly`, `scikit-learn`, `yfinance`, `selenium`
+- **Run the Streamlit app** from the project root:
+
+```bash
+streamlit run app/Home.py
 ```
 
---------
-
+The side navigation in Streamlit lets you switch between:
+- **Home** – PCA demo on simple 2D data.
+- **S&P 500 Overview** – Sector weights, top stocks per sector, cumulative returns, and sector correlation.
+- **PCA S&P 500** – PCA on the selected date range for the chosen S&P 500 universe.
