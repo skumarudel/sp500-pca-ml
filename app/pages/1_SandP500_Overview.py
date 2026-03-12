@@ -1,7 +1,15 @@
-# ====================== Import RequiredA Libraries ===AA===================
+# ====================== Import Required Libraries ====================
+import os
+import sys
+
 import streamlit as st
 import pandas as pd
 import datetime
+
+# Ensure project root is on sys.path when run from app directory (e.g. Streamlit Cloud)
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if PROJECT_ROOT not in sys.path:
+    sys.path.append(PROJECT_ROOT)
 
 # Import custom scripts for modularity and readability
 from sp500_pca_ml.data_download import (
