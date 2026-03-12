@@ -5,11 +5,7 @@ from itertools import chain
 
 
 def create_sectorwise_corr(spdata, stockdata, top_value):
-    """
-    This is create sector wise correlation
-    by combing stocks in same sectors
-    """
-    sector_map = spdata.set_index("Symbol")["GICS Sector"].to_dict()
+    """Create sector-wise correlation by combining top-weighted stocks in each sector."""
     sector_returns = pd.DataFrame()
     for sector in spdata["GICS Sector"].unique():
         df_sector = (
