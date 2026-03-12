@@ -12,7 +12,7 @@ This app:
 
 ### Environment setup with `uv`
 
-```bash
+```bashs
 # Install uv (if you don't have it)
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
@@ -24,6 +24,7 @@ source .venv/bin/activate  # on macOS/Linux
 
 # Install project dependencies
 uv add streamlit pandas numpy plotly scikit-learn yfinance selenium
+source .venv/bin/activate
 ```
 
 ### How to run the app locally
