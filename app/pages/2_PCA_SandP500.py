@@ -30,6 +30,29 @@ st.markdown(
     """In this section, we apply Principal Component Analysis (PCA) to historical stock price data from companies in the S&P 500 index. By reducing dimensionality, PCA helps us identify underlying patterns and common movements in the market, allowing us to group stocks with similar behavior and construct data-driven portfolios. There are various sources of risk in an asset portfolio, including market risk, sector risk, and asset-specific risk. PCA helps identify and quantify these risks by breaking down the returns of the portfolio into components that explain the maximum variance. The first few principal components usually capture most of the variance and they can be analyzed to understand the major sources of risk in the portfolio. We analyze the loadings on the top principal components to infer stock weights, explore sector-based trends to enhance investment decision-making. This analysis serves as a foundation for building interpretable and robust stock selection strategies."""
 )
 
+# Ensure S&P 500 metadata is available
+if "spdata" not in st.session_state:
+    st.session_state["spdata"] = saved_data()
+
+# Date controls for PCA (same bounds as data)
+st.sidebar.header("PCA Date Range")
+min_date = datetime.date(2023, 5, 1)
+max_date = datetime.date(2025, 5, 22)
+default_start_date = min_date
+default_end_date = datetime.date(2023, 9, 1)
+
+start_date = st.sidebar.date_input(
+    "Start date", value=default_start_date, min_value=min_date, max_value=max_date
+)
+end_date = st.sidebar.date_input(
+    "End date", value=default_end_date, min_value=min_date, max_value=max_date
+)
+
+if end_date <= start_date:
+    st.error("End date must be after start date.")
+else:
+    st.session_state["stockdata"] = saved_stock_data(start_date, end_date)
+
 col1, spacer, col2 = st.columns([3, 0.5, 3])
 
 if "spdata" in st.session_state and "stockdata" in st.session_state:
@@ -48,8 +71,21 @@ if "spdata" in st.session_state and "stockdata" in st.session_state:
         spdata = st.session_state["spdata"]
         returns, pca, returns_pca = run_PCA(stockdata, num_components, normalize)
         if pca is not None and returns_pca is not None:
-            # st.success("PCA analysis completed successfully!")
             fig = create_pca_variance_plot(pca.explained_variance_ratio_)
+
+            # Add date range text below the plot for clarity
+            start_date = returns.index.min().date()
+            end_date = returns.index.max().date()
+            fig.add_annotation(
+                text=f"Date range: {start_date} to {end_date}",
+                xref="paper",
+                yref="paper",
+                x=0.5,
+                y=-0.2,
+                showarrow=False,
+                font=dict(size=12),
+            )
+
             st.plotly_chart(fig, use_container_width=True, key="PCA variance plot")
 
     with col2:
@@ -77,18 +113,20 @@ else:
 st.markdown(
     "### Scatter plot of Principal components"
 )  # Section title for sector-wise correlation heatmap
-col1, spacer, col2 = st.columns([3, 0.5, 3])
 
-with col1:
-    columns = list(pca.components_.T.columns)
+if "spdata" in st.session_state and "stockdata" in st.session_state:
+    col1, spacer, col2 = st.columns([3, 0.5, 3])
 
-    component1 = st.selectbox("Select X-axis column", columns)
-    component2 = st.selectbox("Select Y-axis column", columns, index=1)
+    with col1:
+        columns = list(pca.components_.T.columns)
 
-    st.plotly_chart(
-        create_pca_scatter_plot(
-            st.session_state["spdata"], pca.components_, component1, component2
-        ),
-        use_container_width=True,
-        key="PCA scatter plot",
-    )
+        component1 = st.selectbox("Select X-axis column", columns)
+        component2 = st.selectbox("Select Y-axis column", columns, index=1)
+
+        st.plotly_chart(
+            create_pca_scatter_plot(
+                st.session_state["spdata"], pca.components_, component1, component2
+            ),
+            use_container_width=True,
+            key="PCA scatter plot",
+        )
