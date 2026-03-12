@@ -1,0 +1,44 @@
+# Data
+/data/
+
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Build / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Virtual environments
+.env
+.venv
+venv/
+env/
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Docs (MkDocs)
+docs/site/
+
+# Ruff
+.ruff_cache/
+
+# Editor backups
+*.swp
+*.swo
+*~
