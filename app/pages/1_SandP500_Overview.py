@@ -97,12 +97,18 @@ if "spdata" in st.session_state:
     Together, these visualizations help investors understand sector dynamics, reduce portfolio risk, and make more informed allocation decisions within the S&P 500.
     """)
 
-    # Date inputs with default values
-    default_start_date = datetime.date(2023, 4, 30)
-    timedelta = datetime.timedelta(days=120)
-    default_end_date = default_start_date + timedelta
-    start_date = st.sidebar.date_input("Start date", value=default_start_date)
-    end_date = st.sidebar.date_input("End date", value=default_end_date)
+    # Date inputs constrained to dataset range: 2023-05-01 to 2025-05-22
+    min_date = datetime.date(2023, 5, 1)
+    max_date = datetime.date(2025, 5, 22)
+    default_start_date = min_date
+    # choose a reasonable default window inside the allowed range
+    default_end_date = datetime.date(2023, 9, 1)
+    start_date = st.sidebar.date_input(
+        "Start date", value=default_start_date, min_value=min_date, max_value=max_date
+    )
+    end_date = st.sidebar.date_input(
+        "End date", value=default_end_date, min_value=min_date, max_value=max_date
+    )
 
     # Validation check
     if end_date <= start_date:
