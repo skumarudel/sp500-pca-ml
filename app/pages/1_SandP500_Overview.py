@@ -62,6 +62,12 @@ else:
         st.sidebar.warning("No tickers entered. Please enter valid stock symbols.")
 
 
+# Sidebar control for how many top-weight stocks per sector to use
+top_stocks_value = st.sidebar.number_input(
+    "Top stocks by weight per sector", min_value=1, max_value=10, step=1, value=5
+)
+
+
 col1, col2 = st.columns(2)
 
 with col1:
@@ -75,16 +81,18 @@ with col2:
         options = list(st.session_state["spdata"]["GICS Sector"].unique())
         selected_option = st.selectbox("Select a sector:", options)
 
-        top_10 = (
+        top_stocks = (
             st.session_state["spdata"][
                 st.session_state["spdata"]["GICS Sector"] == selected_option
             ]
             .sort_values(by="Weight", ascending=False)
-            .head(10)
+            .head(top_stocks_value)
         )
 
         st.plotly_chart(
-            create_sp_top5_barplot(top_10), use_container_width=True, key="sectorwise barchart"
+            create_sp_top5_barplot(top_stocks),
+            use_container_width=True,
+            key="sectorwise barchart",
         )
 
 
@@ -115,10 +123,6 @@ if "spdata" in st.session_state:
         st.error("End date must be after start date.")
     else:
         st.session_state["stockdata"] = saved_stock_data(start_date, end_date)
-
-    top_stocks_value = st.sidebar.number_input(
-        "Top stocks by weight per sector", min_value=1, max_value=10, step=1, value=5
-    )
 
 # col1, col2 = st.columns(2)
 col1, col2 = st.columns([4, 2])
