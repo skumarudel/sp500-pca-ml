@@ -39,3 +39,5 @@ docs/site/
 *.swp
 *.swo
 *~
+
+sp500-pca-ml.code-workspace
