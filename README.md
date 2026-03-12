@@ -10,10 +10,24 @@ This app:
   - Sector-wise cumulative returns and correlation.
   - Principal Component Analysis (PCA) of stock returns, including variance explained, loadings, and a PCA scatter plot.
 
+### Environment setup with `uv`
+
+```bash
+# Install uv (if you don't have it)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+cd sp500-pca-ml
+
+# Create and activate a Python environment (3.12 recommended)
+uv venv
+source .venv/bin/activate  # on macOS/Linux
+
+# Install project dependencies
+uv add streamlit pandas numpy plotly scikit-learn yfinance selenium
+```
+
 ### How to run the app locally
 
-- **Install dependencies** (using your preferred tool, e.g. `uv` or `pip`):
-  - `streamlit`, `pandas`, `numpy`, `plotly`, `scikit-learn`, `yfinance`, `selenium`
 - **Run the Streamlit app** from the project root:
 
 ```bash
